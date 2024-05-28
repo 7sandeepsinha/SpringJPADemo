@@ -1,0 +1,9 @@
+EAGER
+select b.id,b.brand_name,m.brand_id,m.id,m.model_name
+from brand b left join car_model m on b.id=m.brand_id where b.id=?
+
+LAZY
+select b.id,b.brand_name from brand b where b.id=?
+
+DEFAULT -> LAZY
+select b.id,b.brand_name from brand b where b.id=?

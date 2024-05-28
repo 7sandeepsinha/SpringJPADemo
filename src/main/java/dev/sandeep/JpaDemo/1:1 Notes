@@ -1,0 +1,60 @@
+1:1
+* 1 Way Mapping - no extra annotation
+@Entity
+public class Team extends BaseModel{
+    private String teamName;
+    @OneToOne
+    private TeamDetails teamDetails;
+}
+@Entity
+public class TeamDetails extends BaseModel{
+    private String teamDetails;
+}
+
+Outcome => Team and TeamDetails table got created and team had teamDetails Id as FK -> NON-DESIRED
+
+* 2 Way Mapping - no extra annotation
+@Entity
+public class Team extends BaseModel{
+    private String teamName;
+    @OneToOne
+    private TeamDetails teamDetails;
+}
+@Entity
+public class TeamDetails extends BaseModel{
+    private String teamDetails;
+    @OneToOne
+    private Team team;
+}
+Outcome => Team and TeamDetails table got created and both tables as FK -> NON-DESIRED
+
+* 1 Way Mapping - no extra annotation
+@Entity
+public class Team extends BaseModel{
+    private String teamName;
+}
+@Entity
+public class TeamDetails extends BaseModel{
+    private String teamDetails;
+    @OneToOne
+    private Team team;
+}
+
+Outcome => Team and TeamDetails table got created and TeamDetails had team_Id as FK -> DESIRED
+
+* 2 way mapping with - mappedBy and JoinColumn
+@Entity
+public class Team extends BaseModel{
+    private String teamName;
+    @OneToOne(mappedBy = "team")
+    private TeamDetails teamDetails;
+}
+@Entity
+public class TeamDetails extends BaseModel{
+    private String teamDetails;
+    @OneToOne
+    @JoinColumn(name = "team_Id")
+    private Team team;
+}
+
+Outcome => Team and TeamDetails table got created and TeamDetails had team_Id as FK -> DESIRED

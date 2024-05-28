@@ -1,0 +1,57 @@
+1:M
+* 1 Way mapping - no extra annotations
+@Entity
+public class Brand extends BaseModel{
+    private String brandName;
+    @OneToMany
+    private List<CarModel> models;
+}
+@Entity
+public class CarModel extends BaseModel{
+    private String modelName;
+}
+Outcome => CarModel, Brand and a mapping table called Brand_Models got created => NON-DESIRED
+
+* 2 Way mapping - no extra annotations
+@Entity
+public class Brand extends BaseModel{
+    private String brandName;
+    @OneToMany
+    private List<CarModel> models;
+}
+@Entity
+public class CarModel extends BaseModel{
+    private String modelName;
+    @ManyToOne
+    private Brand brand;
+}
+Outcome => CarModel, Brand and a mapping table called Brand_Models got created, also CarModel has a fk for Brand table => NON-DESIRED
+
+* 1 Way mapping - no extra annotations
+@Entity
+public class Brand extends BaseModel{
+    private String brandName;
+}
+@Entity
+public class CarModel extends BaseModel{
+    private String modelName;
+    @ManyToOne
+    private Brand brand;
+}
+Outcome => CarModel, Brand, also CarModel has a fk for Brand table => DESIRED
+
+* 2 way mapping - mappedBy and JoinColumn
+@Entity
+public class Brand extends BaseModel{
+    private String brandName;
+    @OneToMany(mappedBy = "brand")
+    private List<CarModel> models;
+}
+@Entity
+public class CarModel extends BaseModel{
+    private String modelName;
+    @ManyToOne
+    @JoinColumn(name = "model_id")
+    private Brand brand;
+}
+Outcome => CarModel, Brand, also CarModel has a fk for Brand table => DESIRED
